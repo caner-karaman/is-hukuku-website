@@ -1,38 +1,9 @@
 import React from 'react';
-import { Menu } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Hero() {
   return (
     <>
-      {/* Navbar with Glassmorphism */}
-      <nav className="sticky top-0 z-50 w-full bg-[#f7f9fb]/70 backdrop-blur-[20px] transition-all">
-        <div className="mx-auto max-w-7xl px-6 md:px-12 flex items-center justify-between h-20">
-          <div className="flex items-center gap-2">
-            <Image src="/logo.webp" alt="İş Hukuku Logo" width={128} height={32} className="object-contain" />
-          </div>
-
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#uzmanlik" className="text-sm font-sans font-medium hover:text-secondary transition-colors">Uzmanlık Alanlarımız</a>
-            <a href="#neden-biz" className="text-sm font-sans font-medium hover:text-secondary transition-colors">Neden Biz</a>
-            <a href="#sss" className="text-sm font-sans font-medium hover:text-secondary transition-colors">Sıkça Sorulan Sorular</a>
-          </div>
-
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="#iletisim"
-              className="px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-on-primary font-sans text-sm font-medium transition-transform hover:scale-105"
-            >
-              Hukuki Destek Alın
-            </a>
-          </div>
-
-          <button className="md:hidden text-on-surface">
-            <Menu size={24} />
-          </button>
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <header className="relative pt-24 pb-32 md:pt-40 md:pb-48 overflow-hidden bg-surface">
         <div className="mx-auto max-w-7xl px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
