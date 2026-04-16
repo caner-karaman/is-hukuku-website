@@ -9,22 +9,55 @@ import {
   Scale,
   ChevronLeft,
 } from "lucide-react";
-import { getPostBySlug, getPostsByCategory } from "@/lib/blog";
+import {
+  getPostBySlug as apiGetPostBySlug,
+  getAllPosts as apiGetAllPosts,
+} from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
+import { PostTranslationDTO } from "@/lib/api/model";
 import { notFound } from "next/navigation";
 
 export default async function PostPage(props: {
   params: Promise<{ categorySlug: string; postSlug: string }>;
 }) {
   const { categorySlug, postSlug } = await props.params;
-  const post = await getPostBySlug(postSlug);
+  let post;
+  try {
+    const response = await apiGetPostBySlug(
+      postSlug,
+      {
+        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        lang: "tr",
+      },
+      { next: { revalidate: 3600 } } as RequestInit,
+    );
+    if (response.status !== 200 || !response.data?.id) {
+      notFound();
+    }
+    post = mapDtoToPost(response.data);
+  } catch (err) {
+    notFound();
+  }
 
   if (!post || post.categorySlug !== categorySlug) {
     notFound();
   }
 
-  const relatedPosts = (await getPostsByCategory(categorySlug))
-    .filter((p) => p.slug !== postSlug)
-    .slice(0, 2);
+  let relatedPosts = [];
+  try {
+    const relatedResponse = await apiGetAllPosts(
+      {
+        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        lang: "tr",
+      },
+      { next: { revalidate: 3600 } } as RequestInit,
+    );
+    const allPosts = (relatedResponse.data || []).map(mapDtoToPost);
+    relatedPosts = allPosts
+      .filter((p) => p.categorySlug === categorySlug && p.slug !== postSlug)
+      .slice(0, 2);
+  } catch (err) {
+    console.error("Failed to fetch related posts:", err);
+  }
 
   return (
     <article className="bg-surface min-h-screen">
@@ -294,4 +327,39 @@ export default async function PostPage(props: {
       )}
     </article>
   );
+}
+
+function mapDtoToPost(dto: PostTranslationDTO) {
+  const p = dto.post as any;
+  return {
+    id: dto.id,
+    slug: dto.slug,
+    title: dto.title,
+    content: dto.content,
+    excerpt: dto.summary,
+    category: p?.category?.name || "Hukuk",
+    categorySlug: p?.category?.slug || "is-hukuku",
+    featuredImage: p?.featuredImage || "/blog-featured.png",
+    createdAt: p?.publishedDate
+      ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "14 Mart 2024",
+    updatedAt: p?.publishedDate
+      ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "14 Mart 2024",
+    author: {
+      name: p?.author?.name || "Av. Gayenur KARAMAN",
+      role: p?.author?.role || "Kurucu Avukat",
+      bio: p?.author?.bio || "İstanbul Üniversitesi Hukuk Fakültesi mezunu olup, İş ve Sosyal Güvenlik Hukuku alanında uzmanlaşmıştır.",
+    },
+    tags: p?.tagses?.map((t: any) => t.name || "") || [],
+    faqs: p?.faqs?.map((f: any) => f.question) || [],
+  };
 }
