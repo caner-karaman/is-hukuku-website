@@ -16,11 +16,31 @@ import {
 import { PostTranslationDTO } from "@/lib/api/model";
 import { notFound } from "next/navigation";
 
+interface MappedPost {
+  id?: number;
+  slug: string;
+  title: string;
+  content?: string;
+  excerpt?: string;
+  category: string;
+  categorySlug: string;
+  featuredImage: string;
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    name: string;
+    role: string;
+    bio: string;
+  };
+  tags: string[];
+  faqs: string[];
+}
+
 export default async function PostPage(props: {
   params: Promise<{ categorySlug: string; postSlug: string }>;
 }) {
   const { categorySlug, postSlug } = await props.params;
-  let post;
+  let post: MappedPost;
   try {
     const response = await apiGetPostBySlug(
       postSlug,
@@ -42,7 +62,7 @@ export default async function PostPage(props: {
     notFound();
   }
 
-  let relatedPosts = [];
+  let relatedPosts: MappedPost[] = [];
   try {
     const relatedResponse = await apiGetAllPosts(
       {
@@ -329,7 +349,7 @@ export default async function PostPage(props: {
   );
 }
 
-function mapDtoToPost(dto: PostTranslationDTO) {
+function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
   const p = dto.post as any;
   return {
     id: dto.id,
