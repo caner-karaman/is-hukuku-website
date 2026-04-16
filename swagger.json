@@ -1,0 +1,308 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:9000",
+            "description": "Generated server url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Public Post Integration API",
+            "description": "Endpoints for fetching public posts specific to a website domain"
+        }
+    ],
+    "paths": {
+        "/api/public/posts": {
+            "get": {
+                "tags": [
+                    "Public Post Integration API"
+                ],
+                "summary": "List all posts by domain",
+                "description": "Retrieves all published post translations for a given website domain and language.",
+                "operationId": "getAllPosts",
+                "parameters": [
+                    {
+                        "name": "domain",
+                        "in": "query",
+                        "description": "The target website domain (e.g. is-hukuku.com)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "description": "The language code for translations",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        },
+                        "example": "tr"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostTranslationDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/posts/{slug}": {
+            "get": {
+                "tags": [
+                    "Public Post Integration API"
+                ],
+                "summary": "Get a single post by slug",
+                "description": "Fetches the details of a specific post using its specific language slug and website domain.",
+                "operationId": "getPostBySlug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "URL-friendly slug of the post",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "domain",
+                        "in": "query",
+                        "description": "The target website domain (e.g. is-hukuku.com)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "description": "The language code for the translation",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        },
+                        "example": "tr"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostTranslationDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "imagePath": {
+                        "type": "string"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "website": {
+                        "$ref": "#/components/schemas/WebsiteDTO"
+                    },
+                    "faqs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FaqItemDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "website"
+                ]
+            },
+            "FaqItemDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "answer": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PostDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "featuredImage": {
+                        "type": "string"
+                    },
+                    "publishedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "isPublished": {
+                        "type": "boolean"
+                    },
+                    "viewCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "website": {
+                        "$ref": "#/components/schemas/WebsiteDTO"
+                    },
+                    "tagses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagDTO"
+                        },
+                        "uniqueItems": true
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryDTO"
+                    },
+                    "faqs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FaqItemDTO"
+                        }
+                    }
+                },
+                "required": [
+                    "website"
+                ]
+            },
+            "PostTranslationDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "languageCode": {
+                        "type": "string",
+                        "maxLength": 2,
+                        "minLength": 0
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "summary": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "metaTitle": {
+                        "type": "string",
+                        "maxLength": 70,
+                        "minLength": 0
+                    },
+                    "metaDescription": {
+                        "type": "string",
+                        "maxLength": 160,
+                        "minLength": 0
+                    },
+                    "post": {
+                        "$ref": "#/components/schemas/PostDTO"
+                    }
+                },
+                "required": [
+                    "languageCode",
+                    "post",
+                    "slug",
+                    "title"
+                ]
+            },
+            "TagDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "website": {
+                        "$ref": "#/components/schemas/WebsiteDTO"
+                    },
+                    "postses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PostDTO"
+                        },
+                        "uniqueItems": true
+                    }
+                },
+                "required": [
+                    "website"
+                ]
+            },
+            "WebsiteDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "domain": {
+                        "type": "string"
+                    },
+                    "isActive": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "domain",
+                    "name"
+                ]
+            }
+        }
+    }
+}

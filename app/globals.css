@@ -32,3 +32,58 @@ body {
   color: var(--color-on-surface);
   font-family: var(--font-sans);
 }
+
+/* Post Content Custom Styling */
+#post-content p {
+  margin-bottom: 1.5rem;
+  line-height: inherit;
+  color: inherit;
+}
+
+#post-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+#post-content h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-on-surface);
+}
+
+#post-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#post-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#post-content li {
+  margin-bottom: 0.5rem;
+}
+
+#post-content strong {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Overriding inline black colors from WYSIWYG editors */
+#post-content [style*="color: rgb(0, 0, 0)"] {
+  color: var(--color-on-surface) !important;
+}
+
+#post-content .ql-align-justify {
+  text-align: justify;
+}
