@@ -39,7 +39,7 @@ export const getGetAllPostsUrl = (params: GetAllPostsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/posts?${stringifiedParams}` : `http://localhost:9000/api/public/posts`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/posts?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/posts`
 }
 
 export const getAllPosts = async (params: GetAllPostsParams, options?: RequestInit): Promise<getAllPostsResponse> => {
@@ -89,7 +89,7 @@ export const getGetPostBySlugUrl = (slug: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/posts/${slug}?${stringifiedParams}` : `http://localhost:9000/api/public/posts/${slug}`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/posts/${slug}?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/posts/${slug}`
 }
 
 export const getPostBySlug = async (slug: string,
