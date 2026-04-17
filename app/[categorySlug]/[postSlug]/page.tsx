@@ -120,7 +120,7 @@ export default async function PostPage(props: {
             </div>
           </div>
 
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-on-surface max-w-5xl">
+          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] text-on-surface max-w-5xl">
             {post.title}
           </h1>
 
@@ -157,29 +157,27 @@ export default async function PostPage(props: {
       {/* Main Content Layout */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 pb-24 border-b border-outline-variant/10">
         {/* Main Column */}
-        <div className="lg:col-span-8 min-w-0">
-          <div className="bg-surface-container-lowest/50 backdrop-blur-sm p-8 md:p-16 rounded-[2.5rem] shadow-sm border border-outline-variant/5 overflow-hidden">
-            <div className="prose prose-lg max-w-none prose-slate">
-              {post.content ? (
-                <div
-                  id="post-content"
-                  className="text-lg leading-relaxed text-on-surface/90 mb-12 blog-content break-words overflow-x-auto"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
-              ) : (
-                <>
-                  <h2 className="font-display text-3xl font-bold mb-8 text-on-surface tracking-tight">
-                    Hukuki Değerlendirme
-                  </h2>
-                  <p className="text-lg leading-relaxed text-on-surface/90 mb-8 first-letter:text-6xl first-letter:font-playfair first-letter:float-left first-letter:mr-4 first-letter:text-secondary first-letter:leading-[0.8] first-letter:mt-2">
-                    {post.excerpt}
-                  </p>
-                  <p className="text-lg leading-relaxed text-on-surface/90 mb-12">
-                    İçerik hazırlanıyor...
-                  </p>
-                </>
-              )}
-            </div>
+        <div className="lg:col-span-8">
+          <div className="bg-surface-container-lowest/50 backdrop-blur-sm p-8 md:p-16 rounded-[2.5rem] shadow-sm border border-outline-variant/5">
+            {post.content ? (
+              <div
+                id="post-content"
+                className="text-lg leading-relaxed text-on-surface/90 mb-12 blog-content"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
+            ) : (
+              <>
+                <h2 className="font-display text-3xl font-bold mb-8 text-on-surface tracking-tight">
+                  Hukuki Değerlendirme
+                </h2>
+                <p className="text-lg leading-relaxed text-on-surface/90 mb-8 first-letter:text-6xl first-letter:font-playfair first-letter:float-left first-letter:mr-4 first-letter:text-secondary first-letter:leading-[0.8] first-letter:mt-2">
+                  {post.excerpt}
+                </p>
+                <p className="text-lg leading-relaxed text-on-surface/90 mb-12">
+                  İçerik hazırlanıyor...
+                </p>
+              </>
+            )}
 
             {/* Tags */}
             <div className="mt-16 pt-8 border-t border-outline-variant/20 flex flex-wrap gap-3">
@@ -355,8 +353,8 @@ function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
     id: dto.id,
     slug: dto.slug,
     title: dto.title,
-    content: dto.content,
-    excerpt: dto.summary,
+    content: dto.content?.replace(/&nbsp;/g, " "),
+    excerpt: dto.summary?.replace(/&nbsp;/g, " "),
     category: p?.category?.name || "Hukuk",
     categorySlug: p?.category?.slug || "is-hukuku",
     featuredImage: p?.featuredImage || "/blog-featured.png",
@@ -377,7 +375,9 @@ function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
     author: {
       name: p?.author?.name || "Av. Gayenur KARAMAN",
       role: p?.author?.role || "Kurucu Avukat",
-      bio: p?.author?.bio || "İstanbul Üniversitesi Hukuk Fakültesi mezunu olup, İş ve Sosyal Güvenlik Hukuku alanında uzmanlaşmıştır.",
+      bio:
+        p?.author?.bio ||
+        "İstanbul Üniversitesi Hukuk Fakültesi mezunu olup, İş ve Sosyal Güvenlik Hukuku alanında uzmanlaşmıştır.",
     },
     tags: p?.tagses?.map((t: any) => t.name || "") || [],
     faqs: p?.faqs?.map((f: any) => f.question) || [],
