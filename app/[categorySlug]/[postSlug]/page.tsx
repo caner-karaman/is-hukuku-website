@@ -375,9 +375,7 @@ function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
     author: {
       name: p?.author?.name || "Av. Gayenur KARAMAN",
       role: p?.author?.role || "Kurucu Avukat",
-      bio:
-        p?.author?.bio ||
-        "İstanbul Üniversitesi Hukuk Fakültesi mezunu olup, İş ve Sosyal Güvenlik Hukuku alanında uzmanlaşmıştır.",
+      bio: p?.author?.bio || "",
     },
     tags: p?.tagses?.map((t: any) => t.name || "") || [],
     faqs: p?.faqs?.map((f: any) => f.question) || [],
