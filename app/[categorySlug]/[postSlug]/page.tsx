@@ -215,7 +215,7 @@ export default async function PostPage(props: {
                   {post.author.bio}
                 </p>
               </div>
-              <div className="flex gap-4 justify-center lg:justify-start pt-2">
+              {/* <div className="flex gap-4 justify-center lg:justify-start pt-2">
                 <a
                   href="#"
                   className="w-10 h-10 rounded-full border border-outline-variant/20 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all transform hover:-translate-y-1"
@@ -228,7 +228,7 @@ export default async function PostPage(props: {
                 >
                   <Mail size={18} />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -272,21 +272,6 @@ export default async function PostPage(props: {
               <button className="w-full bg-secondary-container text-primary-container py-4 rounded-xl font-display font-bold uppercase text-xs tracking-[0.2em] hover:bg-white transition-all transform hover:-translate-y-1">
                 İletişime Geçin
               </button>
-            </div>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="p-8 border-2 border-dashed border-outline-variant/20 rounded-[2rem] text-center flex flex-col items-center gap-4 bg-surface/50">
-            <div className="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-secondary opacity-50">
-              <Scale size={32} />
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-black">
-                İstanbul Barosu Kayıtlı Bürodur
-              </p>
-              <p className="text-[10px] text-outline-variant mt-2 italic font-medium">
-                Reklam Yasağına Uygundur
-              </p>
             </div>
           </div>
         </aside>

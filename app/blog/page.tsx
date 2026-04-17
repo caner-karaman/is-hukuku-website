@@ -38,27 +38,6 @@ export default async function BlogIndex() {
         </div>
       </header>
 
-      {/* Category Filter Navigation */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 -mt-8 relative z-10">
-        <div className="bg-surface-container-lowest shadow-xl shadow-on-surface/5 rounded-2xl p-2 flex flex-wrap justify-center gap-2 border border-outline-variant/10 backdrop-blur-md">
-          <Link
-            href="/blog"
-            className="px-6 py-3 rounded-xl bg-primary text-on-primary text-xs font-bold uppercase tracking-widest transition-all"
-          >
-            Tümü
-          </Link>
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/${cat.slug}`}
-              className="px-6 py-3 rounded-xl hover:bg-surface-container-high text-on-surface-variant text-xs font-bold uppercase tracking-widest transition-all"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Post Grid */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 mt-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
