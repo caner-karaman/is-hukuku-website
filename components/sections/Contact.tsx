@@ -49,7 +49,7 @@ export default function Contact() {
         setStatus("success");
         showToast(
           "Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız.",
-          "success"
+          "success",
         );
         reset();
         setTimeout(() => setStatus("idle"), 5000);
@@ -61,7 +61,7 @@ export default function Contact() {
       setStatus("error");
       showToast(
         "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
-        "error"
+        "error",
       );
       setTimeout(() => setStatus("idle"), 5000);
     }
@@ -218,7 +218,6 @@ export default function Contact() {
               >
                 {status === "loading" ? "Gönderiliyor..." : "Gönder"}
               </button>
-
 
               <p className="text-xs text-on-surface-variant text-center font-sans">
                 Bilgileriniz kvkk kapsamında gizli tutulmaktadır.

@@ -32,6 +32,7 @@ export interface PostTranslationDTO {
    */
   metaDescription?: string;
   excerpt?: string;
+  categorySlug?: string;
   modifiedDate?: string;
   post: PostDTO;
 }

@@ -61,7 +61,7 @@ export const getAllPosts = async (params: GetAllPostsParams, options?: RequestIn
 
 
 /**
- * Fetches the details of a specific post using its specific language slug and website domain.
+ * Fetches the details of a specific post using its category slug, post slug, website domain and language.
  * @summary Get a single post by slug
  */
 export type getPostBySlugResponse200 = {
@@ -76,7 +76,8 @@ export type getPostBySlugResponseSuccess = (getPostBySlugResponse200) & {
 
 export type getPostBySlugResponse = (getPostBySlugResponseSuccess)
 
-export const getGetPostBySlugUrl = (slug: string,
+export const getGetPostBySlugUrl = (categorySlug: string,
+    slug: string,
     params: GetPostBySlugParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -89,13 +90,14 @@ export const getGetPostBySlugUrl = (slug: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/posts/${slug}?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/posts/${slug}`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/posts/${categorySlug}/${slug}?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/posts/${categorySlug}/${slug}`
 }
 
-export const getPostBySlug = async (slug: string,
+export const getPostBySlug = async (categorySlug: string,
+    slug: string,
     params: GetPostBySlugParams, options?: RequestInit): Promise<getPostBySlugResponse> => {
   
-  const res = await fetch(getGetPostBySlugUrl(slug,params),
+  const res = await fetch(getGetPostBySlugUrl(categorySlug,slug,params),
   {      
     ...options,
     method: 'GET'

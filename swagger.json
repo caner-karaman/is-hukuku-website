@@ -209,15 +209,24 @@
                 }
             }
         },
-        "/api/public/posts/{slug}": {
+        "/api/public/posts/{categorySlug}/{slug}": {
             "get": {
                 "tags": [
                     "Public Post Integration API"
                 ],
                 "summary": "Get a single post by slug",
-                "description": "Fetches the details of a specific post using its specific language slug and website domain.",
+                "description": "Fetches the details of a specific post using its category slug, post slug, website domain and language.",
                 "operationId": "getPostBySlug",
                 "parameters": [
+                    {
+                        "name": "categorySlug",
+                        "in": "path",
+                        "description": "URL-friendly slug of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "slug",
                         "in": "path",
@@ -487,6 +496,9 @@
                         "minLength": 0
                     },
                     "excerpt": {
+                        "type": "string"
+                    },
+                    "categorySlug": {
                         "type": "string"
                     },
                     "modifiedDate": {

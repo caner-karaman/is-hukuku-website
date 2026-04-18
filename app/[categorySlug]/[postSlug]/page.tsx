@@ -1,14 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Gavel,
-  ArrowRight,
-  Link as LinkIcon,
-  Mail,
-  Scale,
-  ChevronLeft,
-} from "lucide-react";
+import { ArrowRight, Scale, ChevronLeft } from "lucide-react";
 import {
   getPostBySlug as apiGetPostBySlug,
   getAllPosts as apiGetAllPosts,
@@ -43,6 +36,7 @@ export default async function PostPage(props: {
   let post: MappedPost;
   try {
     const response = await apiGetPostBySlug(
+      categorySlug,
       postSlug,
       {
         domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
@@ -55,10 +49,6 @@ export default async function PostPage(props: {
     }
     post = mapDtoToPost(response.data);
   } catch (err) {
-    notFound();
-  }
-
-  if (!post || post.categorySlug !== categorySlug) {
     notFound();
   }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/lib/blog";
 import { getAllPosts as apiGetAllPosts } from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
 import { ArrowRight, Clock, Tag } from "lucide-react";
 
@@ -14,7 +13,7 @@ export default async function BlogIndex() {
     { next: { revalidate: 3600 } } as RequestInit,
   );
   const dtos = response.data || [];
-  console.log("DTO", dtos);
+  console.log(dtos[0]);
 
   return (
     <div className="bg-surface min-h-screen pb-24">
@@ -42,12 +41,10 @@ export default async function BlogIndex() {
       <main className="max-w-7xl mx-auto px-6 md:px-12 mt-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {dtos.map((dto) => {
-            const postAny = dto.post as any;
-            const categoryName = postAny?.category?.name || "Hukuk";
-            const categorySlug = postAny?.category?.slug || "is-hukuku";
+            const categorySlug = dto?.categorySlug || "is-hukuku14";
             const featuredImage =
               dto.post?.featuredImage || "/blog-featured.png";
-            const authorName = postAny?.author?.name || "Av. Gayenur KARAMAN";
+            const authorName = "Av. Gayenur KARAMAN";
             const createdAt = dto.post?.publishedDate
               ? new Date(dto.post.publishedDate).toLocaleDateString("tr-TR", {
                   year: "numeric",
@@ -72,11 +69,11 @@ export default async function BlogIndex() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="absolute top-4 left-4">
+                  {/* <div className="absolute top-4 left-4">
                     <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md text-secondary text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
                       {categoryName}
                     </span>
-                  </div>
+                  </div> */}
                 </Link>
 
                 <div className="p-8 flex flex-col flex-grow">
