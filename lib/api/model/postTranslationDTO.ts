@@ -32,5 +32,6 @@ export interface PostTranslationDTO {
    */
   metaDescription?: string;
   excerpt?: string;
+  modifiedDate?: string;
   post: PostDTO;
 }

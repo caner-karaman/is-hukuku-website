@@ -12,6 +12,10 @@
     ],
     "tags": [
         {
+            "name": "Public Sitemap API",
+            "description": "Endpoints for fetching sitemap data (post slugs, category slugs) by domain"
+        },
+        {
             "name": "Public Contact API",
             "description": "Endpoints for submitting contact messages from website domains"
         },
@@ -57,6 +61,100 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ContactMessageDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/sitemap/posts": {
+            "get": {
+                "tags": [
+                    "Public Sitemap API"
+                ],
+                "summary": "Get all post slugs for sitemap",
+                "description": "Returns all published post slugs with their category slugs and last modified dates for a given domain and language.",
+                "operationId": "getSitemapPosts",
+                "parameters": [
+                    {
+                        "name": "domain",
+                        "in": "query",
+                        "description": "The target website domain (e.g. is-hukuku.com)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "description": "The language code",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        },
+                        "example": "tr"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SitemapPostDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/sitemap/categories": {
+            "get": {
+                "tags": [
+                    "Public Sitemap API"
+                ],
+                "summary": "Get all category slugs for sitemap",
+                "description": "Returns all category slugs with last modified dates for a given domain and language.",
+                "operationId": "getSitemapCategories",
+                "parameters": [
+                    {
+                        "name": "domain",
+                        "in": "query",
+                        "description": "The target website domain (e.g. is-hukuku.com)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "description": "The language code",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        },
+                        "example": "tr"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SitemapCategoryDTO"
+                                    }
                                 }
                             }
                         }
@@ -233,6 +331,33 @@
                     "name"
                 ]
             },
+            "SitemapPostDTO": {
+                "type": "object",
+                "properties": {
+                    "postSlug": {
+                        "type": "string"
+                    },
+                    "categorySlug": {
+                        "type": "string"
+                    },
+                    "lastModified": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "SitemapCategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "slug": {
+                        "type": "string"
+                    },
+                    "lastModified": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
             "CategoryDTO": {
                 "type": "object",
                 "properties": {
@@ -363,6 +488,10 @@
                     },
                     "excerpt": {
                         "type": "string"
+                    },
+                    "modifiedDate": {
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "post": {
                         "$ref": "#/components/schemas/PostDTO"
