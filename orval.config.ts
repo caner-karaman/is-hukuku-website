@@ -8,6 +8,7 @@ export default defineConfig({
       target: './lib/api/endpoints',
       schemas: './lib/api/model',
       client: 'fetch',
+      // baseUrl: 'http://localhost:9000',
       baseUrl: 'https://admin.is-hukuku.com',
     },
   },

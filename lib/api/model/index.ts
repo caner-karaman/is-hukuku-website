@@ -6,10 +6,12 @@
  */
 
 export * from './categoryDTO';
+export * from './contactMessageDTO';
 export * from './faqItemDTO';
 export * from './getAllPostsParams';
 export * from './getPostBySlugParams';
 export * from './postDTO';
 export * from './postTranslationDTO';
+export * from './submitMessageParams';
 export * from './tagDTO';
 export * from './websiteDTO';

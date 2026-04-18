@@ -31,5 +31,6 @@ export interface PostTranslationDTO {
    * @maxLength 160
    */
   metaDescription?: string;
+  excerpt?: string;
   post: PostDTO;
 }
