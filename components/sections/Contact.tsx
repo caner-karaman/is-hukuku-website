@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { submitMessage } from "@/lib/api/endpoints/public-contact-api/public-contact-api";
 
+import { useToast } from "@/components/ui/ToastContext";
+
 const contactSchema = z.object({
   fullName: z.string().min(2, "Lütfen adınızı ve soyadınızı giriniz."),
   phone: z.string().optional(),
@@ -16,6 +18,7 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function Contact() {
+  const { showToast } = useToast();
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -44,6 +47,10 @@ export default function Contact() {
 
       if (response.status === 200 || response.status === 201) {
         setStatus("success");
+        showToast(
+          "Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız.",
+          "success"
+        );
         reset();
         setTimeout(() => setStatus("idle"), 5000);
       } else {
@@ -52,6 +59,10 @@ export default function Contact() {
     } catch (error) {
       console.error("Submission error:", error);
       setStatus("error");
+      showToast(
+        "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
+        "error"
+      );
       setTimeout(() => setStatus("idle"), 5000);
     }
   };
@@ -208,18 +219,6 @@ export default function Contact() {
                 {status === "loading" ? "Gönderiliyor..." : "Gönder"}
               </button>
 
-              {status === "success" && (
-                <p className="text-secondary text-sm text-center font-sans animate-in fade-in slide-in-from-bottom-1">
-                  Mesajınız başarıyla iletildi. En kısa sürede size dönüş
-                  yapacağız.
-                </p>
-              )}
-
-              {status === "error" && (
-                <p className="text-error text-sm text-center font-sans">
-                  Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
-                </p>
-              )}
 
               <p className="text-xs text-on-surface-variant text-center font-sans">
                 Bilgileriniz kvkk kapsamında gizli tutulmaktadır.

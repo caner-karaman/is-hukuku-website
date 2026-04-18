@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   description: "Yüksek standartlarda hukuki danışmanlık hizmeti.",
 };
 
+import { ToastProvider } from "@/components/ui/ToastContext";
+import { ToastContainer } from "@/components/ui/Toast";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,9 +38,12 @@ export default function RootLayout({
       className={`${inter.variable} ${manrope.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <ToastProvider>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+          <ToastContainer />
+        </ToastProvider>
       </body>
     </html>
   );
