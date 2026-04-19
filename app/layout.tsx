@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/sections/Navbar";
@@ -49,6 +50,19 @@ export default function RootLayout({
       className={`${inter.variable} ${manrope.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-32CSWFRHXL"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-32CSWFRHXL');
+          `}
+        </Script>
         <ToastProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
