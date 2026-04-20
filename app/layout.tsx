@@ -38,6 +38,7 @@ export const metadata: Metadata = {
 
 import { ToastProvider } from "@/components/ui/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 export default function RootLayout({
   children,
@@ -58,6 +59,13 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            
+            // Varsayılan olarak çerezleri bekletiyoruz (kullanıcı banner'da kabul edene kadar)
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'analytics_storage': 'denied'
+            });
+
             gtag('js', new Date());
 
             gtag('config', 'G-32CSWFRHXL');
@@ -69,6 +77,7 @@ export default function RootLayout({
           <Footer />
           <ToastContainer />
         </ToastProvider>
+        <CookieConsent />
       </body>
     </html>
   );
