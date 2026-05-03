@@ -204,6 +204,53 @@ export default async function PostPage(props: {
                 <p className="text-sm text-on-surface-variant leading-relaxed font-medium">
                   {post.author.bio}
                 </p>
+                <div className="flex flex-col items-center lg:items-start gap-3 mt-4">
+                  <div>
+                    <a
+                      href="mailto:gayenurbaycan@gmail.com"
+                      className="inline-flex items-center gap-2 text-sm text-secondary font-medium hover:underline"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect width="20" height="16" x="2" y="4" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                      </svg>
+                      gayenurbaycan@gmail.com
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      href="tel:+905436433346"
+                      className="inline-flex items-center gap-2 text-sm text-secondary font-medium hover:underline"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.22 6.22l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.5z" />
+                      </svg>
+                      0543 643 33 46
+                    </a>
+                  </div>
+                </div>
               </div>
               {/* <div className="flex gap-4 justify-center lg:justify-start pt-2">
                 <a
@@ -350,7 +397,9 @@ function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
     author: {
       name: p?.author?.name || "Av. Gayenur KARAMAN",
       role: p?.author?.role || "Kurucu Avukat",
-      bio: p?.author?.bio || "",
+      bio:
+        p?.author?.bio ||
+        "Avukat Gayenur Karaman, İş ve Tazminat Hukuku alanlarında uzmanlaşmış tecrübesiyle müvekkillerine stratejik danışmanlık sunmaktadır. Güncel mevzuat ve Yargıtay kararları ışığında, işçi-işveren haklarını koruyan sonuç odaklı çözümler üretir. Şeffaf çalışma prensibiyle, hukuki süreçlerde güvenilir bir rehberlik sağlamaktadır",
     },
     tags: p?.tagses?.map((t: any) => t.name || "") || [],
     faqs: p?.faqs?.map((f: any) => f.question) || [],
