@@ -44,7 +44,7 @@ export const getGetAllProblemsUrl = (params?: GetAllProblemsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/problems?${stringifiedParams}` : `http://localhost:9000/api/public/problems`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/problems?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/problems`
 }
 
 export const getAllProblems = async (params?: GetAllProblemsParams, options?: RequestInit): Promise<getAllProblemsResponse> => {
@@ -90,7 +90,7 @@ export const getGetProblemBySlugUrl = (slug: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/problems/${slug}?${stringifiedParams}` : `http://localhost:9000/api/public/problems/${slug}`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/problems/${slug}?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/problems/${slug}`
 }
 
 export const getProblemBySlug = async (slug: string,

@@ -43,7 +43,7 @@ export const getGetAllSubmissionsUrl = (params?: GetAllSubmissionsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/submissions?${stringifiedParams}` : `http://localhost:9000/api/public/submissions`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/submissions?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/submissions`
 }
 
 export const getAllSubmissions = async (params?: GetAllSubmissionsParams, options?: RequestInit): Promise<getAllSubmissionsResponse> => {
@@ -81,7 +81,7 @@ export const getCreateSubmissionUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/submissions`
+  return `https://admin.is-hukuku.com/api/public/submissions`
 }
 
 export const createSubmission = async (submissionRequestVM: SubmissionRequestVM, options?: RequestInit): Promise<createSubmissionResponse> => {

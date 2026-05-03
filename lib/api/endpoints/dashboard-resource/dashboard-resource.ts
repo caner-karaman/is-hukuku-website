@@ -28,7 +28,7 @@ export const getGetDashboardStatsUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/dashboard/stats`
+  return `https://admin.is-hukuku.com/api/public/dashboard/stats`
 }
 
 export const getDashboardStats = async ( options?: RequestInit): Promise<getDashboardStatsResponse> => {
@@ -81,7 +81,7 @@ export const getGetSolvedProblemsUrl = (params?: GetSolvedProblemsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/dashboard/solved-problems?${stringifiedParams}` : `http://localhost:9000/api/public/dashboard/solved-problems`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/dashboard/solved-problems?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/dashboard/solved-problems`
 }
 
 export const getSolvedProblems = async (params?: GetSolvedProblemsParams, options?: RequestInit): Promise<getSolvedProblemsResponse> => {

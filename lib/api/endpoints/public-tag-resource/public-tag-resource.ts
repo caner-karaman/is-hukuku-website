@@ -34,7 +34,7 @@ export const getGetAllTagsUrl = (params: GetAllTagsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/tags?${stringifiedParams}` : `http://localhost:9000/api/public/tags`
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/tags?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/tags`
 }
 
 export const getAllTags = async (params: GetAllTagsParams, options?: RequestInit): Promise<getAllTagsResponse> => {

@@ -26,7 +26,7 @@ export const getToggleSolvedUrl = (problemId: number,) => {
 
   
 
-  return `http://localhost:9000/api/public/user-problems/toggle/${problemId}`
+  return `https://admin.is-hukuku.com/api/public/user-problems/toggle/${problemId}`
 }
 
 export const toggleSolved = async (problemId: number, options?: RequestInit): Promise<toggleSolvedResponse> => {
@@ -64,7 +64,7 @@ export const getGetSolvedProblemIdsUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/user-problems/solved-ids`
+  return `https://admin.is-hukuku.com/api/public/user-problems/solved-ids`
 }
 
 export const getSolvedProblemIds = async ( options?: RequestInit): Promise<getSolvedProblemIdsResponse> => {

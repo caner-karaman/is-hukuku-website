@@ -29,7 +29,7 @@ export const getRegisterAccountUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/auth/register`
+  return `https://admin.is-hukuku.com/api/public/auth/register`
 }
 
 export const registerAccount = async (customRegisterVM: CustomRegisterVM, options?: RequestInit): Promise<registerAccountResponse> => {
@@ -68,7 +68,7 @@ export const getRefreshUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/auth/refresh`
+  return `https://admin.is-hukuku.com/api/public/auth/refresh`
 }
 
 export const refresh = async (refreshVM: RefreshVM, options?: RequestInit): Promise<refreshResponse> => {
@@ -107,7 +107,7 @@ export const getLoginUrl = () => {
 
   
 
-  return `http://localhost:9000/api/public/auth/login`
+  return `https://admin.is-hukuku.com/api/public/auth/login`
 }
 
 export const login = async (customLoginVM: CustomLoginVM, options?: RequestInit): Promise<loginResponse> => {

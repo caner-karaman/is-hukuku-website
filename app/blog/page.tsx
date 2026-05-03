@@ -4,16 +4,27 @@ import Image from "next/image";
 import { getAllPosts as apiGetAllPosts } from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
 import { ArrowRight, Clock, Tag } from "lucide-react";
 
-export default async function BlogIndex() {
+export default async function BlogIndex(props: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const pageStr = searchParams?.page;
+  const page = typeof pageStr === "string" ? parseInt(pageStr, 10) : 1;
+  const size = 9;
   const response = await apiGetAllPosts(
     {
       domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
       lang: "tr",
+      page: Math.max(0, page - 1),
+      size,
     },
     { next: { revalidate: 3600 } } as RequestInit,
   );
-  const dtos = response.data || [];
-  console.log(dtos[0]);
+
+  const dtos = Array.isArray(response.data) ? response.data : [];
+  const totalCountHeader = response.headers?.get("x-total-count");
+  const totalElements = totalCountHeader ? parseInt(totalCountHeader, 10) : 0;
+  const totalPages = Math.ceil(totalElements / size);
 
   return (
     <div className="bg-surface min-h-screen pb-24">
@@ -132,6 +143,48 @@ export default async function BlogIndex() {
             <p className="font-display text-xl text-on-surface-variant">
               Henüz içerik bulunmamaktadır.
             </p>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-16">
+            {page > 1 && (
+              <Link
+                href={`/blog?page=${page - 1}`}
+                className="px-4 py-2 rounded-full border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+              >
+                Önceki
+              </Link>
+            )}
+
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages }).map((_, i) => {
+                const pageNum = i + 1;
+                return (
+                  <Link
+                    key={pageNum}
+                    href={`/blog?page=${pageNum}`}
+                    className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-medium transition-colors ${
+                      page === pageNum
+                        ? "bg-primary text-on-primary"
+                        : "text-on-surface-variant hover:bg-surface-container-high"
+                    }`}
+                  >
+                    {pageNum}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {page < totalPages && (
+              <Link
+                href={`/blog?page=${page + 1}`}
+                className="px-4 py-2 rounded-full border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+              >
+                Sonraki
+              </Link>
+            )}
           </div>
         )}
       </main>
