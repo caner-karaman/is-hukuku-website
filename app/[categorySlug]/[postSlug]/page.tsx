@@ -191,11 +191,14 @@ export default async function PostPage(props: {
               Yazar Hakkında
             </h4>
             <div className="flex flex-col gap-6">
-              <div className="w-24 h-24 rounded-2xl bg-surface-container-high overflow-hidden shadow-lg relative mx-auto lg:mx-0 flex items-center justify-center text-primary text-2xl font-bold">
-                {post.author.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+              <div className="w-24 h-24 rounded-2xl bg-surface-container-high overflow-hidden shadow-lg relative mx-auto lg:mx-0 flex items-center justify-center">
+                <Image
+                  src="/author-avatar.png"
+                  alt={post.author.name}
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
               </div>
               <div className="text-center lg:text-left">
                 <h5 className="font-display font-bold text-xl text-on-surface mb-3">
