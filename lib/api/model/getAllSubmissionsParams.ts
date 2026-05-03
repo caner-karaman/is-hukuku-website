@@ -5,14 +5,7 @@
  * OpenAPI spec version: v0
  */
 
-export type GetAllPostsParams = {
-/**
- * The target website domain (e.g. is-hukuku.com)
- */
-domain: string;
-/**
- * The language code for translations
- */
+export type GetAllSubmissionsParams = {
 lang?: string;
 /**
  * Zero-based page index (0..N)

@@ -4,13 +4,9 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type { WebsiteDTO } from './websiteDTO';
-import type { PostDTO } from './postDTO';
 
-export interface TagDTO {
+export interface TagListDTO {
   id?: number;
   name?: string;
   slug?: string;
-  website: WebsiteDTO;
-  postses?: PostDTO[];
 }

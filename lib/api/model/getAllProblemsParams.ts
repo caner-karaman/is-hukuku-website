@@ -4,16 +4,13 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
+import type { GetAllProblemsDifficulty } from './getAllProblemsDifficulty';
 
-export type GetAllPostsParams = {
-/**
- * The target website domain (e.g. is-hukuku.com)
- */
-domain: string;
-/**
- * The language code for translations
- */
+export type GetAllProblemsParams = {
 lang?: string;
+title?: string;
+difficulty?: GetAllProblemsDifficulty;
+tagIds?: number[];
 /**
  * Zero-based page index (0..N)
  * @minimum 0

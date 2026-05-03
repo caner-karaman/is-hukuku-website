@@ -25,6 +25,133 @@
         }
     ],
     "paths": {
+        "/api/public/user-problems/toggle/{problemId}": {
+            "post": {
+                "tags": [
+                    "public-user-problem-resource"
+                ],
+                "operationId": "toggleSolved",
+                "parameters": [
+                    {
+                        "name": "problemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ToggleSolvedResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/submissions": {
+            "get": {
+                "tags": [
+                    "submission-resource"
+                ],
+                "operationId": "getAllSubmissions",
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SubmissionDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "submission-resource"
+                ],
+                "operationId": "createSubmission",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubmissionRequestVM"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubmissionDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/public/contact": {
             "post": {
                 "tags": [
@@ -61,6 +188,156 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ContactMessageDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/auth/register": {
+            "post": {
+                "tags": [
+                    "public-auth-resource"
+                ],
+                "operationId": "registerAccount",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomRegisterVM"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/public/auth/refresh": {
+            "post": {
+                "tags": [
+                    "public-auth-resource"
+                ],
+                "operationId": "refresh",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshVM"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponseVM"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/auth/login": {
+            "post": {
+                "tags": [
+                    "public-auth-resource"
+                ],
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomLoginVM"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponseVM"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/user-problems/solved-ids": {
+            "get": {
+                "tags": [
+                    "public-user-problem-resource"
+                ],
+                "operationId": "getSolvedProblemIds",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/tags": {
+            "get": {
+                "tags": [
+                    "public-tag-resource"
+                ],
+                "operationId": "getAllTags",
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        }
+                    },
+                    {
+                        "name": "websiteId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TagListDTO"
+                                    }
                                 }
                             }
                         }
@@ -162,6 +439,146 @@
                 }
             }
         },
+        "/api/public/problems": {
+            "get": {
+                "tags": [
+                    "public-problem-resource"
+                ],
+                "operationId": "getAllProblems",
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "difficulty",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "EASY",
+                                "MEDIUM",
+                                "HARD"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "tagIds",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProblemListDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/problems/{slug}": {
+            "get": {
+                "tags": [
+                    "public-problem-resource"
+                ],
+                "operationId": "getProblemBySlug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetailDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/public/posts": {
             "get": {
                 "tags": [
@@ -190,6 +607,40 @@
                             "default": "tr"
                         },
                         "example": "tr"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -270,10 +721,179 @@
                     }
                 }
             }
+        },
+        "/api/public/dashboard/stats": {
+            "get": {
+                "tags": [
+                    "dashboard-resource"
+                ],
+                "operationId": "getDashboardStats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DashboardStatsDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/dashboard/solved-problems": {
+            "get": {
+                "tags": [
+                    "dashboard-resource"
+                ],
+                "operationId": "getSolvedProblems",
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "tr"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserSolvedProblemDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ToggleSolvedResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "problemId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "solved": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SubmissionRequestVM": {
+                "type": "object",
+                "properties": {
+                    "problemId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "ACCEPTED",
+                            "FAILED",
+                            "TIMEOUT",
+                            "RUNTIME_ERROR",
+                            "COMPILE_ERROR"
+                        ]
+                    },
+                    "programmingLanguage": {
+                        "type": "string"
+                    },
+                    "runtimeMs": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "problemId",
+                    "programmingLanguage",
+                    "status"
+                ]
+            },
+            "SubmissionDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "problemTitle": {
+                        "type": "string"
+                    },
+                    "problemSlug": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "ACCEPTED",
+                            "FAILED",
+                            "TIMEOUT",
+                            "RUNTIME_ERROR",
+                            "COMPILE_ERROR"
+                        ]
+                    },
+                    "programmingLanguage": {
+                        "type": "string"
+                    },
+                    "runtimeMs": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "submittedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
             "ContactMessageDTO": {
                 "type": "object",
                 "properties": {
@@ -339,6 +959,162 @@
                     "domain",
                     "name"
                 ]
+            },
+            "CustomRegisterVM": {
+                "type": "object",
+                "properties": {
+                    "login": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 254,
+                        "minLength": 5
+                    },
+                    "password": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 4
+                    }
+                },
+                "required": [
+                    "login",
+                    "password"
+                ]
+            },
+            "RefreshVM": {
+                "type": "object",
+                "properties": {
+                    "refreshToken": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "refreshToken"
+                ]
+            },
+            "AdminUserDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "login": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 1,
+                        "pattern": "^(?>[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)|(?>[_.@A-Za-z0-9-]+)$"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 0
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 254,
+                        "minLength": 5
+                    },
+                    "imageUrl": {
+                        "type": "string",
+                        "maxLength": 256,
+                        "minLength": 0
+                    },
+                    "activated": {
+                        "type": "boolean"
+                    },
+                    "langKey": {
+                        "type": "string",
+                        "maxLength": 10,
+                        "minLength": 2
+                    },
+                    "createdBy": {
+                        "type": "string"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastModifiedBy": {
+                        "type": "string"
+                    },
+                    "lastModifiedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "authorities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "uniqueItems": true
+                    }
+                },
+                "required": [
+                    "login"
+                ]
+            },
+            "AuthResponseVM": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/AdminUserDTO"
+                    },
+                    "id_token": {
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CustomLoginVM": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 1
+                    },
+                    "password": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 4
+                    },
+                    "rememberMe": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "TagListDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                }
             },
             "SitemapPostDTO": {
                 "type": "object",
@@ -459,6 +1235,133 @@
                     "website"
                 ]
             },
+            "ProblemListDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "difficulty": {
+                        "type": "string",
+                        "enum": [
+                            "EASY",
+                            "MEDIUM",
+                            "HARD"
+                        ]
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagDTO"
+                        },
+                        "uniqueItems": true
+                    },
+                    "isSolved": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "TagDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "website": {
+                        "$ref": "#/components/schemas/WebsiteDTO"
+                    },
+                    "postses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PostDTO"
+                        },
+                        "uniqueItems": true
+                    }
+                },
+                "required": [
+                    "website"
+                ]
+            },
+            "ProblemDetailDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "difficulty": {
+                        "type": "string",
+                        "enum": [
+                            "EASY",
+                            "MEDIUM",
+                            "HARD"
+                        ]
+                    },
+                    "leetcodeUrl": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "languageCode": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagDTO"
+                        },
+                        "uniqueItems": true
+                    },
+                    "solutions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SolutionDTO"
+                        }
+                    }
+                }
+            },
+            "SolutionDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "programmingLanguage": {
+                        "type": "string"
+                    },
+                    "videoUrl": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "explanation": {
+                        "type": "string"
+                    }
+                }
+            },
             "PostTranslationDTO": {
                 "type": "object",
                 "properties": {
@@ -516,27 +1419,55 @@
                     "title"
                 ]
             },
-            "TagDTO": {
+            "DashboardStatsDTO": {
                 "type": "object",
                 "properties": {
-                    "id": {
+                    "easy": {
+                        "$ref": "#/components/schemas/DifficultyStatsDTO"
+                    },
+                    "medium": {
+                        "$ref": "#/components/schemas/DifficultyStatsDTO"
+                    },
+                    "hard": {
+                        "$ref": "#/components/schemas/DifficultyStatsDTO"
+                    }
+                }
+            },
+            "DifficultyStatsDTO": {
+                "type": "object",
+                "properties": {
+                    "total": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "website": {
-                        "$ref": "#/components/schemas/WebsiteDTO"
-                    },
-                    "postses": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PostDTO"
-                        },
-                        "uniqueItems": true
+                    "solved": {
+                        "type": "integer",
+                        "format": "int64"
                     }
-                },
-                "required": [
-                    "website"
-                ]
+                }
+            },
+            "UserSolvedProblemDTO": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "difficulty": {
+                        "type": "string",
+                        "enum": [
+                            "EASY",
+                            "MEDIUM",
+                            "HARD"
+                        ]
+                    },
+                    "solvedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
             }
         }
     }

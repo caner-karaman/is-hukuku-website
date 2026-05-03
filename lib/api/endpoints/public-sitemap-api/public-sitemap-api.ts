@@ -40,7 +40,7 @@ export const getGetSitemapPostsUrl = (params: GetSitemapPostsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/sitemap/posts?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/sitemap/posts`
+  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/sitemap/posts?${stringifiedParams}` : `http://localhost:9000/api/public/sitemap/posts`
 }
 
 export const getSitemapPosts = async (params: GetSitemapPostsParams, options?: RequestInit): Promise<getSitemapPostsResponse> => {
@@ -89,7 +89,7 @@ export const getGetSitemapCategoriesUrl = (params: GetSitemapCategoriesParams,) 
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/sitemap/categories?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/sitemap/categories`
+  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/sitemap/categories?${stringifiedParams}` : `http://localhost:9000/api/public/sitemap/categories`
 }
 
 export const getSitemapCategories = async (params: GetSitemapCategoriesParams, options?: RequestInit): Promise<getSitemapCategoriesResponse> => {

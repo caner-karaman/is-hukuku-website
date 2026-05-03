@@ -38,7 +38,7 @@ export const getSubmitMessageUrl = (params: SubmitMessageParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/contact?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/contact`
+  return stringifiedParams.length > 0 ? `http://localhost:9000/api/public/contact?${stringifiedParams}` : `http://localhost:9000/api/public/contact`
 }
 
 export const submitMessage = async (contactMessageDTO: ContactMessageDTO,
