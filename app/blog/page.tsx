@@ -105,7 +105,7 @@ export default async function BlogIndex(props: {
                   </Link>
 
                   <p className="text-on-surface-variant text-sm leading-relaxed mb-8 line-clamp-3">
-                    {dto.summary || (dto as any).excerpt || ""}
+                    {dto.summary || ""}
                   </p>
 
                   <div className="mt-auto pt-6 border-t border-outline-variant/10 flex items-center justify-between">
