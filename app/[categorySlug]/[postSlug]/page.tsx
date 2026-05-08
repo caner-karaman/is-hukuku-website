@@ -8,6 +8,7 @@ import {
 } from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
 import { PostTranslationDTO } from "@/lib/api/model";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 interface MappedPost {
   id?: number;
@@ -27,6 +28,41 @@ interface MappedPost {
   };
   tags: string[];
   faqs: string[];
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ categorySlug: string; postSlug: string }>;
+}): Promise<Metadata> {
+  const { categorySlug, postSlug } = await props.params;
+
+  try {
+    const response = await apiGetPostBySlug(
+      categorySlug,
+      postSlug,
+      {
+        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        lang: "tr",
+      },
+      { next: { revalidate: 3600 } } as RequestInit,
+    );
+
+    if (response.status === 200 && response.data?.id) {
+      const metaTitle = response.data.metaTitle || response.data.title;
+      const metaDescription =
+        response.data.metaDescription || response.data.summary || "";
+
+      return {
+        title: metaTitle,
+        description: metaDescription,
+      };
+    }
+  } catch (err) {
+    console.error("Failed to fetch metadata for post:", err);
+  }
+
+  return {
+    title: "İş Hukuku",
+  };
 }
 
 export default async function PostPage(props: {
