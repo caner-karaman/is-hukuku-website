@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build:worker": "opennextjs-cloudflare build",
+  "deploy:worker": "opennextjs-cloudflare deploy",
+    "dev:worker": "wrangler dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -12,14 +15,14 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "lucide-react": "^1.7.0",
-    "next": "16.2.1",
+    "next": "^16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.16",
+    "@opennextjs/cloudflare": "^1.19.11",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -28,6 +31,7 @@
     "eslint-config-next": "16.2.1",
     "orval": "^7.5.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.94.0"
   }
 }
