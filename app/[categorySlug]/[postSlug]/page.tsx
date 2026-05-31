@@ -55,6 +55,8 @@ export default async function PostPage(props: {
 }) {
   const { categorySlug, postSlug } = await props.params;
   let post: MappedPost;
+  let publishedDateIso: string | undefined;
+
   try {
     const response = await apiGetPostBySlug(
       categorySlug,
@@ -69,6 +71,7 @@ export default async function PostPage(props: {
       notFound();
     }
     post = mapDtoToPost(response.data);
+    publishedDateIso = response.data.post?.publishedDate;
   } catch (err) {
     notFound();
   }
@@ -90,7 +93,80 @@ export default async function PostPage(props: {
     console.error("Failed to fetch related posts:", err);
   }
 
-  return <PostTemplate post={post} relatedPosts={relatedPosts} />;
+  const datePublished = publishedDateIso
+    ? new Date(publishedDateIso).toISOString()
+    : new Date().toISOString();
+
+  const postUrl = `${WEBSITE_URL}/${categorySlug}/${postSlug}`;
+
+  const authorPersonSchema = {
+    "@type": "Person",
+    "@id": `${WEBSITE_URL}/#person`,
+    "name": "Gayenur Karaman",
+    "url": WEBSITE_URL,
+    "telephone": "+905436433346",
+    "email": "gayenurbaycan@gmail.com",
+    "jobTitle": "Avukat",
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "İstanbul Medipol Üniversitesi Hukuk Fakültesi",
+      "url": "https://www.medipol.edu.tr/"
+    },
+    "knowsAbout": [
+      "İş Hukuku",
+      "Tazminat Hukuku"
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/gayenur-karaman-baycan-a20468160"
+    ],
+    "description": "Avukat Gayenur Karaman, İstanbul Medipol Üniversitesi Hukuk Fakültesi mezunu olup, İstanbul 1 No'lu Barosu'na 66828 sicil numarası ile bağlı olarak İş Hukuku ve Tazminat Hukuku alanlarında uzman avukatlık ve hukuki danışmanlık hizmeti sunmaktadır.",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "degree",
+      "name": "Avukatlık Ruhsatnamesi",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "İstanbul 1 No'lu Barosu",
+        "sameAs": "https://www.istanbulbarosu.org.tr/"
+      },
+      "credentialId": "66828"
+    }
+  };
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || "",
+    "image": post.featuredImage.startsWith("http")
+      ? post.featuredImage
+      : `${WEBSITE_URL}${post.featuredImage}`,
+    "datePublished": datePublished,
+    "dateModified": datePublished,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": postUrl
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "İş Hukuku",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${WEBSITE_URL}/logo.webp`
+      }
+    },
+    "author": authorPersonSchema
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <PostTemplate post={post} relatedPosts={relatedPosts} />
+    </>
+  );
 }
 
 function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
