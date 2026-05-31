@@ -106,10 +106,10 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
                 <span>Kategoriler</span>
                 <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180 text-outline-variant" />
               </button>
-              
+
               {/* Mega-menu 2-column Dropdown Container */}
               <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[680px] max-w-[calc(100vw-2rem)] rounded-2xl bg-surface-container shadow-2xl border border-outline-variant/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-50 overflow-hidden flex h-[360px]">
-                
+
                 {/* Left Panel: Categories List */}
                 <div className="w-2/5 border-r border-outline-variant/10 bg-surface-container-low/50 py-4 px-2 overflow-y-auto flex flex-col gap-0.5">
                   {activeCategories.map((cat) => (
@@ -118,11 +118,10 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
                       href={`/${cat.slug}`}
                       onMouseEnter={() => setHoveredCategorySlug(cat.slug)}
                       onClick={close}
-                      className={`w-full text-left px-4 py-2.5 text-xs font-bold transition-all rounded-lg flex items-center justify-between ${
-                        hoveredCategorySlug === cat.slug
-                          ? 'bg-primary/10 text-primary'
-                          : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
-                      }`}
+                      className={`w-full text-left px-4 py-2.5 text-xs font-bold transition-all rounded-lg flex items-center justify-between ${hoveredCategorySlug === cat.slug
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                        }`}
                     >
                       <span>{cat.name}</span>
                       <ChevronRight size={12} className={`transition-opacity duration-150 ${hoveredCategorySlug === cat.slug ? 'opacity-100 text-primary' : 'opacity-0'}`} />
@@ -186,7 +185,7 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
               href="/#iletisim"
               className="px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-on-primary font-sans text-xs font-bold uppercase tracking-widest transition-transform hover:scale-105"
             >
-              Destek
+              Destek AL
             </Link>
           </div>
 
@@ -213,9 +212,8 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-72 bg-surface shadow-2xl flex flex-col md:hidden transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 z-50 h-full w-72 bg-surface shadow-2xl flex flex-col md:hidden transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
         aria-hidden={!isOpen}
       >
         {/* Drawer header */}
@@ -243,15 +241,13 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
               <span>Kategoriler</span>
               <ChevronDown
                 size={16}
-                className={`transition-transform duration-200 text-outline-variant ${
-                  isMobileCategoriesOpen ? 'rotate-180' : ''
-                }`}
+                className={`transition-transform duration-200 text-outline-variant ${isMobileCategoriesOpen ? 'rotate-180' : ''
+                  }`}
               />
             </button>
             <div
-              className={`pl-4 flex flex-col gap-2 overflow-hidden transition-all duration-200 ${
-                isMobileCategoriesOpen ? 'max-h-[500px] opacity-100 py-2 overflow-y-auto' : 'max-h-0 opacity-0'
-              }`}
+              className={`pl-4 flex flex-col gap-2 overflow-hidden transition-all duration-200 ${isMobileCategoriesOpen ? 'max-h-[500px] opacity-100 py-2 overflow-y-auto' : 'max-h-0 opacity-0'
+                }`}
             >
               {activeCategories.map((cat) => (
                 <div key={cat.slug} className="flex flex-col gap-1">
@@ -313,7 +309,7 @@ export default function Navbar({ initialCategories = [] }: NavbarProps) {
             onClick={close}
             className="block w-full text-center px-6 py-3 rounded-md bg-gradient-to-r from-primary to-primary-container text-on-primary font-sans text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
           >
-            Destek
+            Destek AL
           </Link>
         </div>
       </div>

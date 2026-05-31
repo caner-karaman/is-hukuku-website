@@ -9,6 +9,8 @@ interface CategoryTemplateProps {
   posts: Post[];
   categorySlug: string;
   categoriesList?: any[];
+  page: number;
+  totalPages: number;
 }
 
 export default function CategoryTemplate({
@@ -16,6 +18,8 @@ export default function CategoryTemplate({
   posts,
   categorySlug,
   categoriesList = [],
+  page,
+  totalPages,
 }: CategoryTemplateProps) {
   const activeCategories = categoriesList.length > 0 ? categoriesList : categories;
 
@@ -70,7 +74,8 @@ export default function CategoryTemplate({
       {/* Post Grid */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 mt-20">
         {posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {posts.map((post) => (
               <article
                 key={post.slug}
@@ -133,6 +138,49 @@ export default function CategoryTemplate({
               </article>
             ))}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-16">
+              {page > 1 && (
+                <Link
+                  href={`/${categorySlug}?page=${page - 1}`}
+                  className="px-4 py-2 rounded-full border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                >
+                  Önceki
+                </Link>
+              )}
+
+              <div className="flex gap-1">
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const pageNum = i + 1;
+                  return (
+                    <Link
+                      key={pageNum}
+                      href={`/${categorySlug}?page=${pageNum}`}
+                      className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-medium transition-colors ${
+                        page === pageNum
+                          ? "bg-primary text-on-primary"
+                          : "text-on-surface-variant hover:bg-surface-container-high"
+                      }`}
+                    >
+                      {pageNum}
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {page < totalPages && (
+                <Link
+                  href={`/${categorySlug}?page=${page + 1}`}
+                  className="px-4 py-2 rounded-full border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                >
+                  Sonraki
+                </Link>
+              )}
+            </div>
+          )}
+          </>
         ) : (
           <div className="text-center py-32 bg-surface-container-low/20 rounded-[3rem] border-2 border-dashed border-outline-variant/20">
             <h3 className="font-display text-2xl font-bold text-on-surface mb-2">

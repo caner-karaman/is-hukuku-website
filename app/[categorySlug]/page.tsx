@@ -18,17 +18,17 @@ function mapDtoToPost(dto: PostTranslationDTO): Post {
     categorySlug: dto.categorySlug || "is-hukuku",
     createdAt: p?.publishedDate
       ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : "14 Mart 2024",
     updatedAt: p?.publishedDate
       ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : "14 Mart 2024",
     author: {
       name: p?.author?.name || "Av. Gayenur KARAMAN",
@@ -46,8 +46,13 @@ function mapDtoToPost(dto: PostTranslationDTO): Post {
 
 export default async function CategoryPage(props: {
   params: Promise<{ categorySlug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { categorySlug } = await props.params;
+  const searchParams = await props.searchParams;
+  const pageStr = searchParams?.page;
+  const page = typeof pageStr === "string" ? parseInt(pageStr, 10) : 1;
+  const size = 9;
 
   // Fetch categories to validate current slug and pass for layout links
   let categoriesList: any[] = [];
@@ -76,17 +81,26 @@ export default async function CategoryPage(props: {
 
   // Fetch and map posts matching this category slug
   let posts: Post[] = [];
+  let totalPages = 1;
   try {
     const postsResponse = await apiGetAllPosts(
-      { domain: WEBSITE_DOMAIN, lang: "tr" },
+      {
+        domain: WEBSITE_DOMAIN,
+        lang: "tr",
+        categorySlug,
+        page: Math.max(0, page - 1),
+        size,
+      },
       { next: { revalidate: 3600 } } as RequestInit,
     );
     const allPostsDtos = Array.isArray(postsResponse.data)
       ? postsResponse.data
       : [];
-    posts = allPostsDtos
-      .filter((p) => p.categorySlug === categorySlug)
-      .map(mapDtoToPost);
+    posts = allPostsDtos.map(mapDtoToPost);
+
+    const totalCountHeader = postsResponse.headers?.get("x-total-count");
+    const totalElements = totalCountHeader ? parseInt(totalCountHeader, 10) : 0;
+    totalPages = Math.ceil(totalElements / size);
   } catch (err) {
     console.error("Failed to fetch posts for category page:", err);
   }
@@ -97,6 +111,8 @@ export default async function CategoryPage(props: {
       posts={posts}
       categorySlug={categorySlug}
       categoriesList={categoriesList}
+      page={page}
+      totalPages={totalPages}
     />
   );
 }
