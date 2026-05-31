@@ -66,8 +66,9 @@ export default async function RootLayout({
     <html
       lang="tr"
       className={`${inter.variable} ${manrope.variable} ${playfair.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-32CSWFRHXL"
           strategy="afterInteractive"
