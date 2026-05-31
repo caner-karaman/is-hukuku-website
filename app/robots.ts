@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
+import { WEBSITE_URL as BASE_URL } from '@/lib/constants';
 
 export default function robots(): MetadataRoute.Robots {
-  const BASE_URL = 'https://is-hukuku.com';
+
 
   return {
     rules: {

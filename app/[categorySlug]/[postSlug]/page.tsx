@@ -7,6 +7,7 @@ import { PostTranslationDTO } from "@/lib/api/model";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostTemplate, { MappedPost } from "@/components/templates/[categorySlug]/[postSlug]/PostTemplate";
+import { WEBSITE_DOMAIN, WEBSITE_URL } from "@/lib/constants";
 
 export async function generateMetadata(props: {
   params: Promise<{ categorySlug: string; postSlug: string }>;
@@ -18,7 +19,7 @@ export async function generateMetadata(props: {
       categorySlug,
       postSlug,
       {
-        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        domain: WEBSITE_DOMAIN,
         lang: "tr",
       },
       { next: { revalidate: 3600 } } as RequestInit,
@@ -32,6 +33,9 @@ export async function generateMetadata(props: {
       return {
         title: metaTitle,
         description: metaDescription,
+        alternates: {
+          canonical: `${WEBSITE_URL}/${categorySlug}/${postSlug}`,
+        },
       };
     }
   } catch (err) {
@@ -40,6 +44,9 @@ export async function generateMetadata(props: {
 
   return {
     title: "İş Hukuku",
+    alternates: {
+      canonical: `${WEBSITE_URL}/${categorySlug}/${postSlug}`,
+    },
   };
 }
 
@@ -53,7 +60,7 @@ export default async function PostPage(props: {
       categorySlug,
       postSlug,
       {
-        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        domain: WEBSITE_DOMAIN,
         lang: "tr",
       },
       { next: { revalidate: 3600 } } as RequestInit,
@@ -70,7 +77,7 @@ export default async function PostPage(props: {
   try {
     const relatedResponse = await apiGetAllPosts(
       {
-        domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+        domain: WEBSITE_DOMAIN,
         lang: "tr",
       },
       { next: { revalidate: 3600 } } as RequestInit,
@@ -99,17 +106,17 @@ function mapDtoToPost(dto: PostTranslationDTO): MappedPost {
     featuredImage: p?.featuredImage || "/blog-featured.png",
     createdAt: p?.publishedDate
       ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : "14 Mart 2024",
     updatedAt: p?.publishedDate
       ? new Date(p.publishedDate).toLocaleDateString("tr-TR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : "14 Mart 2024",
     author: {
       name: p?.author?.name || "Av. Gayenur KARAMAN",

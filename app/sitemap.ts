@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getSitemapPosts } from '@/lib/api/endpoints/public-sitemap-api/public-sitemap-api';
+import { WEBSITE_DOMAIN, WEBSITE_URL as BASE_URL } from '@/lib/constants';
 
-const BASE_URL = 'https://is-hukuku.com';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const response = await getSitemapPosts({
-      domain: 'is-hukuku.com',
+      domain: WEBSITE_DOMAIN,
       lang: 'tr',
     });
 

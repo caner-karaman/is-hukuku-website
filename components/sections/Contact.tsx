@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { submitMessage } from "@/lib/api/endpoints/public-contact-api/public-contact-api";
+import { WEBSITE_DOMAIN } from "@/lib/constants";
 
 import { useToast } from "@/components/ui/ToastContext";
 
@@ -42,7 +43,7 @@ export default function Contact() {
     setStatus("loading");
     try {
       const response = await submitMessage(data, {
-        domain: "is-hukuku.com",
+        domain: WEBSITE_DOMAIN,
       });
 
       if (response.status === 200 || response.status === 201) {

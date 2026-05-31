@@ -1,6 +1,7 @@
 import React from "react";
 import { getAllPosts as apiGetAllPosts } from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
 import BlogTemplate from "@/components/templates/blog/BlogTemplate";
+import { WEBSITE_DOMAIN } from "@/lib/constants";
 
 export default async function BlogIndex(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -11,7 +12,7 @@ export default async function BlogIndex(props: {
   const size = 9;
   const response = await apiGetAllPosts(
     {
-      domain: process.env.NEXT_PUBLIC_WEBSITE_DOMAIN || "is-hukuku.com",
+      domain: WEBSITE_DOMAIN,
       lang: "tr",
       page: Math.max(0, page - 1),
       size,
