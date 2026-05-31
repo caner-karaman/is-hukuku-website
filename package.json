@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:worker": "opennextjs-cloudflare build",
-  "deploy:worker": "opennextjs-cloudflare deploy",
+    "deploy:worker": "opennextjs-cloudflare deploy",
     "dev:worker": "wrangler dev",
     "dev": "next dev",
     "build": "next build",
