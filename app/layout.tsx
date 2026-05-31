@@ -39,12 +39,29 @@ export const metadata: Metadata = {
 import { ToastProvider } from "@/components/ui/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
 import CookieConsent from "@/components/ui/CookieConsent";
+import { getGetCategoriesWithPostsUrl } from "@/lib/api/endpoints/public-post-integration-api/public-post-integration-api";
+import { WEBSITE_DOMAIN } from "@/lib/constants";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch categories for the Navbar on the server side
+  let initialCategories: any[] = [];
+  try {
+    const url = getGetCategoriesWithPostsUrl({
+      domain: WEBSITE_DOMAIN,
+      lang: "tr",
+    });
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    if (res.ok) {
+      initialCategories = await res.json();
+    }
+  } catch (err) {
+    console.error("Failed to fetch layout categories:", err);
+  }
+
   return (
     <html
       lang="tr"
@@ -72,7 +89,7 @@ export default function RootLayout({
           `}
         </Script>
         <ToastProvider>
-          <Navbar />
+          <Navbar initialCategories={initialCategories} />
           <main className="flex-grow">{children}</main>
           <Footer />
           <ToastContainer />
@@ -82,3 +99,4 @@ export default function RootLayout({
     </html>
   );
 }
+

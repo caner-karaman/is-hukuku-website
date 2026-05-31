@@ -8,9 +8,17 @@ interface CategoryTemplateProps {
   category: Category;
   posts: Post[];
   categorySlug: string;
+  categoriesList?: any[];
 }
 
-export default function CategoryTemplate({ category, posts, categorySlug }: CategoryTemplateProps) {
+export default function CategoryTemplate({
+  category,
+  posts,
+  categorySlug,
+  categoriesList = [],
+}: CategoryTemplateProps) {
+  const activeCategories = categoriesList.length > 0 ? categoriesList : categories;
+
   return (
     <div className="bg-surface min-h-screen pb-24">
       {/* Header */}
@@ -41,7 +49,7 @@ export default function CategoryTemplate({ category, posts, categorySlug }: Cate
       <div className="border-b border-outline-variant/10 bg-surface">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="flex gap-8 overflow-x-auto no-scrollbar py-6">
-            {categories.map((cat) => (
+            {activeCategories.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/${cat.slug}`}
@@ -57,6 +65,7 @@ export default function CategoryTemplate({ category, posts, categorySlug }: Cate
           </div>
         </div>
       </div>
+
 
       {/* Post Grid */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 mt-20">

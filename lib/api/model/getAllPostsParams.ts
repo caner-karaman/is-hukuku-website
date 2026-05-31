@@ -15,6 +15,10 @@ domain: string;
  */
 lang?: string;
 /**
+ * Filter by category slug
+ */
+categorySlug?: string;
+/**
  * Zero-based page index (0..N)
  * @minimum 0
  */

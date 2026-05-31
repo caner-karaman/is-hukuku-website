@@ -6,8 +6,10 @@
  */
 import type {
   GetAllPostsParams,
+  GetCategoriesWithPostsParams,
   GetPostBySlugParams,
-  PostTranslationDTO
+  PostTranslationDTO,
+  PublicCategoryPostsDTO
 } from '../../model';
 
 
@@ -19,7 +21,7 @@ export type getAllPostsResponse200 = {
   data: PostTranslationDTO[]
   status: 200
 }
-    
+
 export type getAllPostsResponseSuccess = (getAllPostsResponse200) & {
   headers: Headers;
 };
@@ -39,7 +41,7 @@ export const getGetAllPostsUrl = (params: GetAllPostsParams,) => {
       });
       return;
     }
-      
+
     if (value !== undefined) {
       normalizedParams.append(key, value === null ? 'null' : value.toString())
     }
@@ -51,18 +53,18 @@ export const getGetAllPostsUrl = (params: GetAllPostsParams,) => {
 }
 
 export const getAllPosts = async (params: GetAllPostsParams, options?: RequestInit): Promise<getAllPostsResponse> => {
-  
+
   const res = await fetch(getGetAllPostsUrl(params),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: getAllPostsResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getAllPostsResponse
 }
@@ -76,7 +78,7 @@ export type getPostBySlugResponse200 = {
   data: PostTranslationDTO
   status: 200
 }
-    
+
 export type getPostBySlugResponseSuccess = (getPostBySlugResponse200) & {
   headers: Headers;
 };
@@ -85,12 +87,12 @@ export type getPostBySlugResponseSuccess = (getPostBySlugResponse200) & {
 export type getPostBySlugResponse = (getPostBySlugResponseSuccess)
 
 export const getGetPostBySlugUrl = (categorySlug: string,
-    slug: string,
-    params: GetPostBySlugParams,) => {
+  slug: string,
+  params: GetPostBySlugParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
+
     if (value !== undefined) {
       normalizedParams.append(key, value === null ? 'null' : value.toString())
     }
@@ -102,22 +104,71 @@ export const getGetPostBySlugUrl = (categorySlug: string,
 }
 
 export const getPostBySlug = async (categorySlug: string,
-    slug: string,
-    params: GetPostBySlugParams, options?: RequestInit): Promise<getPostBySlugResponse> => {
-  
-  const res = await fetch(getGetPostBySlugUrl(categorySlug,slug,params),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-)
+  slug: string,
+  params: GetPostBySlugParams, options?: RequestInit): Promise<getPostBySlugResponse> => {
+
+  const res = await fetch(getGetPostBySlugUrl(categorySlug, slug, params),
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: getPostBySlugResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getPostBySlugResponse
+}
+
+
+/**
+ * Retrieves all categories and up to 12 published posts for each, filtered by website domain and language.
+ * @summary Get all categories and their top 12 posts by domain
+ */
+export type getCategoriesWithPostsResponse200 = {
+  data: PublicCategoryPostsDTO[]
+  status: 200
+}
+
+export type getCategoriesWithPostsResponseSuccess = (getCategoriesWithPostsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getCategoriesWithPostsResponse = (getCategoriesWithPostsResponseSuccess)
+
+export const getGetCategoriesWithPostsUrl = (params: GetCategoriesWithPostsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `https://admin.is-hukuku.com/api/public/posts/categories?${stringifiedParams}` : `https://admin.is-hukuku.com/api/public/posts/categories`
+}
+
+export const getCategoriesWithPosts = async (params: GetCategoriesWithPostsParams, options?: RequestInit): Promise<getCategoriesWithPostsResponse> => {
+
+  const res = await fetch(getGetCategoriesWithPostsUrl(params),
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: getCategoriesWithPostsResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getCategoriesWithPostsResponse
 }
 
 
