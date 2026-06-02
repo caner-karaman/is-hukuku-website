@@ -91,7 +91,7 @@ export default function PostTemplate({ post, relatedPosts }: PostTemplateProps) 
             </div>
           </div>
 
-          <div className="mt-4 rounded-2xl overflow-hidden aspect-[21/9] relative shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)]">
+          <div className="mt-4 rounded-2xl overflow-hidden aspect-[2/1] relative shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)]">
             <Image
               src={post.featuredImage}
               alt={post.title}
